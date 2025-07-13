@@ -1,0 +1,55 @@
+#pragma once
+#include <string>
+#include <chrono>
+#include <queue>
+#include <mutex>
+#include <condition_variable>
+#include <thread>
+#include <unordered_map>
+
+class TTLManager
+{
+public:
+    TTLManager();
+    ~TTLManager();
+
+    void add_expiration(
+        const std::string &key,
+        std::chrono::steady_clock::time_point expire_time);
+
+    void remove_expiration(
+        const std::string &key);
+
+    bool expired(
+        const std::string &key);
+
+    void stop();
+
+private:
+    struct expire_entry
+    {
+        std::string key;
+
+        std::chrono::steady_clock::time_point expire_time;
+
+        bool operator>(const expire_entry &other) const
+        {
+            return this->expire_time > other.expire_time;
+        }
+    };
+
+    std::priority_queue<expire_entry, std::vector<expire_entry>, std::greater<>>
+        expiry_heap_;
+
+    std::unordered_map<std::string, std::chrono::steady_clock::time_point> expiry_map_;
+
+    std::mutex mutex_;
+
+    std::condition_variable cv_;
+
+    bool stop_flag_;
+
+    std::thread sweeper_thread_;
+
+    void sweeper();
+};
