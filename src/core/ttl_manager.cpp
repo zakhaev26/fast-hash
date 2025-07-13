@@ -14,7 +14,7 @@ TTLManager::~TTLManager()
 void TTLManager::stop()
 {
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::mutex> lock(this->mutex_);
         stop_flag_ = true;
     }
     cv_.notify_all();
@@ -51,7 +51,7 @@ bool TTLManager::expired(const std::string &key)
     if (it == expiry_map_.end())
     {
         std::cout << "DEBUG: key '" << key << "' not found in expiry_map_ → not expired\n";
-        return true;
+        return false;
     }
 
     auto expire_time = it->second;

@@ -1,12 +1,14 @@
 #include "core/command.hpp"
 #include "core/parser.hpp"
 #include <iostream>
+#include "core/command.hpp"
 #define __SET__ "SET"
 #define __GET__ "GET"
 #define __EXPIRE__ "EXPIRE"
 #define __TTL__ "TTL"
 #define __SETEX__ "SETEX"
 #define __DEL__ "DEL"
+#define __KEYS__ "KEYS"
 
 Command Command::parse(const std::string &line)
 {
@@ -32,6 +34,8 @@ Command Command::parse(const std::string &line)
         cmd.type = TTL;
     else if (cmd_name == __SETEX__)
         cmd.type = SETEX;
+    else if (cmd_name == __KEYS__)
+        cmd.type = KEYS;
     else
         cmd.type = INVALID;
 
@@ -133,8 +137,39 @@ void Command::execute(FastHash &store) const
             std::cout << "ERROR: invalid seconds\n";
         }
         break;
-
+    case KEYS:
+        if (args.size() != 2)
+        {
+            std::cout << "ERROR: Usage: KEYS pattern\n";
+            return;
+        }
+        for (const auto &key : store.keys(args[1]))
+            std::cout << key << "\n";
+        break;
     default:
         std::cout << "ERROR: unknown command\n";
+    }
+}
+
+void Command::handle_keys(FastHash &store, const std::vector<std::string> &tokens)
+{
+    if (tokens.size() != 2)
+    {
+        std::cout << "ERROR: Usage: KEYS pattern\n";
+        return;
+    }
+
+    std::vector<std::string> matches = store.keys(tokens[1]);
+
+    if (matches.empty())
+    {
+        std::cout << "(empty list)\n";
+    }
+    else
+    {
+        for (const auto &k : matches)
+        {
+            std::cout << k << "\n";
+        }
     }
 }

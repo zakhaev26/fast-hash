@@ -20,6 +20,8 @@ public:
     bool expire(const std::string &key, int seconds);
     int ttl(const std::string &key);
 
+    std::vector<std::string> keys(const std::string &pattern = "*");
+
     void stop();
 
 private:

@@ -27,3 +27,37 @@ namespace parser
     }
 
 }
+
+// CommandType parse_command(const std::string &input, std::vector<std::string> &tokens)
+// {
+//     std::istringstream iss(input);
+//     std::string token;
+
+//     while (iss >> token)
+//     {
+//         tokens.push_back(token);
+//     }
+
+//     if (tokens.empty())
+//         return CommandType::INVALID;
+
+//     std::string cmd = tokens[0];
+//     std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::toupper);
+
+//     if (cmd == "SET")
+//         return CommandType::SET;
+//     if (cmd == "GET")
+//         return CommandType::GET;
+//     if (cmd == "DEL")
+//         return CommandType::DEL;
+//     if (cmd == "EXPIRE")
+//         return CommandType::EXPIRE;
+//     if (cmd == "TTL")
+//         return CommandType::TTL;
+//     if (cmd == "SETEX")
+//         return CommandType::SETEX;
+//     if (cmd == "KEYS")
+//         return CommandType::KEYS;
+
+//     return CommandType::INVALID;
+// }

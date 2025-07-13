@@ -1,6 +1,7 @@
-#include "core/fast-hash.hpp"
-#include "core/fast-hash.hpp"
 #include <iostream>
+#include <regex>
+#include "core/fast-hash.hpp"
+
 FastHash::FastHash() {}
 FastHash::~FastHash()
 {
@@ -19,7 +20,7 @@ bool FastHash::set(
 {
     std::lock_guard<std::mutex> lock(this->mutex_);
     this->store_[key] = Value{value};
-    std::cout << "[DEBUG]: key " << key << " value " << value << " ttl_seconds " << ttl_seconds.value() << "\n";
+    // std::cout << "[DEBUG]: key " << key << " value " << value << " ttl_seconds " << ttl_seconds.value() << "\n";
     if (ttl_seconds.has_value())
     {
         auto expire_time = std::chrono::steady_clock::now() + std::chrono::seconds(ttl_seconds.value());
@@ -111,4 +112,32 @@ int FastHash::ttl(const std::string &key)
         return -1;
     }
     return -2;
+}
+
+std::vector<std::string> FastHash::keys(const std::string &pattern)
+{
+    // return std::vector<std::string>();
+    std::lock_guard<std::mutex> lock(this->mutex_);
+    std::vector<std::string> response;
+
+    std::string regex_pattern = std::regex_replace(pattern, std::regex(R"([\.\^\$\+\(\)\[\]\{\}])"), R"(\$&)"); // escape regex
+    regex_pattern = std::regex_replace(regex_pattern, std::regex(R"(\*)"), ".*");
+    regex_pattern = std::regex_replace(regex_pattern, std::regex(R"(\?)"), ".");
+
+    std::regex pattern_regex("^" + regex_pattern + "$");
+
+    for (const auto &pair : store_)
+    {
+        const std::string &key = pair.first;
+
+        if (this->ttl_manager_.expired(key))
+            continue;
+
+        if (std::regex_match(key, pattern_regex))
+        {
+            response.emplace_back(key);
+        }
+    }
+
+    return response;
 }
