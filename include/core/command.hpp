@@ -10,8 +10,15 @@ public:
     enum Type
     {
         SET,
+        SETEX,
+
         GET,
+
         DEL,
+
+        EXPIRE,
+        TTL,
+
         INVALID
     };
     Type type;

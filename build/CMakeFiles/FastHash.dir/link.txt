@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/FastHash.dir/src/main.cpp.o CMakeFiles/FastHash.dir/src/core/command.cpp.o "CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o" -o FastHash
+/usr/bin/c++ CMakeFiles/FastHash.dir/src/main.cpp.o "CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o" CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o CMakeFiles/FastHash.dir/src/core/command.cpp.o CMakeFiles/FastHash.dir/src/core/parser.cpp.o -o FastHash

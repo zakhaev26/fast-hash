@@ -8,6 +8,9 @@ include_directories(include)
 
 add_executable(FastHash
     src/main.cpp
-    src/core/command.cpp
     src/core/fast-hash.cpp
+    src/core/ttl_manager.cpp
+    src/core/command.cpp
+    src/core/parser.cpp
+    # src/core/utils.cpp  
 )

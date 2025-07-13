@@ -2,26 +2,31 @@
 #include <string>
 #include "core/command.hpp"
 #include "core/fast-hash.hpp"
-
 int main()
 {
     FastHash store;
-    std::string input;
+    std::string line;
 
-    std::cout << "Welcome to Fast-Hash CLI. Type EXIT to quit.\n";
+    std::cout << "FastHash CLI. Commands: SET, GET, DEL, EXPIRE, TTL, SETEX\n";
 
     while (true)
     {
         std::cout << "> ";
-        std::getline(std::cin, input);
-
-        if (input == "EXIT")
+        if (!std::getline(std::cin, line))
             break;
+        if (line.empty())
+            continue;
 
-        Command cmd = Command::parse(input);
+        Command cmd = Command::parse(line);
+        if (cmd.type == Command::INVALID)
+        {
+            std::cout << "ERROR: Invalid command\n";
+            continue;
+        }
+
         cmd.execute(store);
     }
 
-    std::cout << "Goodbye!\n";
+    store.stop();
     return 0;
 }

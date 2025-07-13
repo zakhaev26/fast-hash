@@ -60,7 +60,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/soubhik/codes/fast-hash
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/soubhik/codes/fast-hash/build
+CMAKE_BINARY_DIR = /home/soubhik/codes/fast-hash
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/soubhik/codes/fast-hash/build/CMakeFiles /home/soubhik/codes/fast-hash/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/soubhik/codes/fast-hash/CMakeFiles /home/soubhik/codes/fast-hash//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/soubhik/codes/fast-hash/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/soubhik/codes/fast-hash/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
