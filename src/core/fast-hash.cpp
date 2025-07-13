@@ -1,6 +1,6 @@
 #include "core/fast-hash.hpp"
 #include "core/fast-hash.hpp"
-
+#include <iostream>
 FastHash::FastHash() {}
 FastHash::~FastHash()
 {
@@ -19,11 +19,12 @@ bool FastHash::set(
 {
     std::lock_guard<std::mutex> lock(this->mutex_);
     this->store_[key] = Value{value};
-
+    std::cout << "[DEBUG]: key " << key << " value " << value << " ttl_seconds " << ttl_seconds.value() << "\n";
     if (ttl_seconds.has_value())
     {
         auto expire_time = std::chrono::steady_clock::now() + std::chrono::seconds(ttl_seconds.value());
-
+        std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(expire_time.time_since_epoch()).count()
+                  << "\n";
         this->ttl_manager_.add_expiration(key, expire_time);
     }
     else
@@ -42,12 +43,15 @@ bool FastHash::set(
 std::optional<std::string> FastHash::get(const std::string &key)
 {
     std::lock_guard<std::mutex> lock(mutex_);
+
     if (ttl_manager_.expired(key))
     {
+        std::cout << "[DEBUG]: key expired already!\n";
         store_.erase(key);
         ttl_manager_.remove_expiration(key);
         return std::nullopt;
     }
+    std::cout << "[DEBUG]: key not expired !\n";
 
     auto it = store_.find(key);
     if (it == store_.end())

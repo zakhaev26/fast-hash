@@ -1,4 +1,5 @@
 #include "core/ttl-manager.hpp"
+#include <iostream>
 
 TTLManager::TTLManager() : stop_flag_(false)
 {
@@ -49,15 +50,25 @@ bool TTLManager::expired(const std::string &key)
     auto it = expiry_map_.find(key);
     if (it == expiry_map_.end())
     {
-        return false;
+        std::cout << "DEBUG: key '" << key << "' not found in expiry_map_ → not expired\n";
+        return true;
     }
 
-    if (now >= it->second)
+    auto expire_time = it->second;
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+    auto expire_ms = std::chrono::duration_cast<std::chrono::milliseconds>(expire_time.time_since_epoch()).count();
+
+    std::cout << "DEBUG: checking key '" << key << "'\n";
+    std::cout << "DEBUG: now_ms = " << now_ms << ", expire_ms = " << expire_ms << "\n";
+
+    if (now >= expire_time)
     {
+        std::cout << "DEBUG: key '" << key << "' is expired → erasing from map\n";
         expiry_map_.erase(it);
         return true;
     }
 
+    std::cout << "DEBUG: key '" << key << "' has not yet expired\n";
     return false;
 }
 
