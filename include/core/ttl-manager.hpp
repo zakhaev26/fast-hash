@@ -27,6 +27,7 @@ public:
     // std::function<void(const std::string &)> on_expire_callback_;
     // void set_expire_callback(std::function<void(const std::string &)> cb);
     std::optional<std::chrono::steady_clock::time_point> get_expiry_time(const std::string &key);
+    bool has_expiration(const std::string& key);
 
 private:
     struct expire_entry

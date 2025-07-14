@@ -10,6 +10,7 @@
 #define __DEL__ "DEL"
 #define __KEYS__ "KEYS"
 #define __EXISTS__ "EXISTS"
+#define __PERSIST__ "PERSIST"
 
 Command Command::parse(const std::string &line)
 {
@@ -24,21 +25,21 @@ Command Command::parse(const std::string &line)
     std::string cmd_name = parser::to_upper(cmd.args[0]);
 
     if (cmd_name == __SET__)
-        cmd.type = Type::SET;
+        cmd.type = Command::Type::SET;
     else if (cmd_name == __GET__)
-        cmd.type = Type::GET;
+        cmd.type = Command::Type::GET;
     else if (cmd_name == __DEL__)
-        cmd.type = Type::DEL;
+        cmd.type = Command::Type::DEL;
     else if (cmd_name == __EXPIRE__)
-        cmd.type = Type::EXPIRE;
+        cmd.type = Command::Type::EXPIRE;
     else if (cmd_name == __TTL__)
-        cmd.type = Type::TTL;
+        cmd.type = Command::Type::TTL;
     else if (cmd_name == __SETEX__)
-        cmd.type = Type::SETEX;
+        cmd.type = Command::Type::SETEX;
     else if (cmd_name == __KEYS__)
-        cmd.type = Type::KEYS;
-    else if (cmd_name == __EXISTS__)
-        cmd.type = Type::EXISTS;
+        cmd.type = Command::Type::KEYS;
+    else if (cmd_name == __PERSIST__)
+        cmd.type = Command::Type::PERSIST;
     else
         cmd.type = INVALID;
 
@@ -49,7 +50,7 @@ void Command::execute(FastHash &store) const
 {
     switch (type)
     {
-    case SET:
+    case Command::Type::SET:
         if (args.size() != 3)
         {
             std::cout << "ERROR: SET usage: SET key value\n";
@@ -59,7 +60,7 @@ void Command::execute(FastHash &store) const
         std::cout << "OK\n";
         break;
 
-    case GET:
+    case Command::Type::GET:
     {
         if (args.size() != 2)
         {
@@ -74,7 +75,7 @@ void Command::execute(FastHash &store) const
         break;
     }
 
-    case DEL:
+    case Command::Type::DEL:
         if (args.size() != 2)
         {
             std::cout << "ERROR: DEL usage: DEL key\n";
@@ -86,7 +87,7 @@ void Command::execute(FastHash &store) const
             std::cout << "(nil)\n";
         break;
 
-    case EXPIRE:
+    case Command::Type::EXPIRE:
         if (args.size() != 3)
         {
             std::cout << "ERROR: EXPIRE usage: EXPIRE key seconds\n";
@@ -106,7 +107,7 @@ void Command::execute(FastHash &store) const
         }
         break;
 
-    case TTL:
+    case Command::Type::TTL:
         if (args.size() != 2)
         {
             std::cout << "ERROR: TTL usage: TTL key\n";
@@ -123,7 +124,7 @@ void Command::execute(FastHash &store) const
         }
         break;
 
-    case SETEX:
+    case Command::Type::SETEX:
         if (args.size() != 4)
         {
             std::cout << "ERROR: SETEX usage: SETEX key seconds value\n";
@@ -141,7 +142,7 @@ void Command::execute(FastHash &store) const
         }
         break;
 
-    case KEYS:
+    case Command::Type::KEYS:
         if (args.size() != 2)
         {
             std::cout << "ERROR: Usage: KEYS pattern\n";
@@ -151,13 +152,22 @@ void Command::execute(FastHash &store) const
             std::cout << key << "\n";
         break;
 
-    case EXISTS:
+    case Command::Type::EXISTS:
         if (args.size() != 2)
         {
             std::cout << "ERROR: Usage: EXISTS key\n";
             return;
         }
         std::cout << (store.exists(args[1]) ? "1\n" : "0\n");
+        break;
+
+    case Command::Type::PERSIST:
+        if (args.size() != 2)
+        {
+            std::cout << "ERROR: Usage: PERSIST key\n";
+            return;
+        }
+        std::cout << (store.persist(args[1]) ? "1\n" : "0\n");
         break;
 
     default:

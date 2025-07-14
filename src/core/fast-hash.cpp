@@ -179,3 +179,25 @@ bool FastHash::exists(const std::string &key)
 
     return store_.find(key) != store_.end();
 }
+
+bool FastHash::persist(const std::string &key)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (ttl_manager_.expired(key))
+    {
+        store_.erase(key);
+        ttl_manager_.remove_expiration(key);
+        return false;
+    }
+
+    auto it = store_.find(key);
+    if (it == store_.end())
+        return false;
+
+    if (!ttl_manager_.has_expiration(key))
+        return false;
+
+    ttl_manager_.remove_expiration(key);
+    return true;
+}

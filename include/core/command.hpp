@@ -16,12 +16,13 @@ public:
         EXPIRE,
         TTL,
         KEYS,
-        EXISTS, 
+        EXISTS,
+        PERSIST, 
         INVALID
     };
     Type type;
     std::vector<std::string> args;
-    void handle_keys(FastHash &store, const std::vector<std::string> &tokens);
+    // void handle_keys(FastHash &store, const std::vector<std::string> &tokens);
 
     static Command parse(const std::string &line);
     void execute(FastHash &store) const;

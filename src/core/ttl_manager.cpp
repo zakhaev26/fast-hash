@@ -128,3 +128,9 @@ std::optional<std::chrono::steady_clock::time_point> TTLManager::get_expiry_time
     }
     return std::nullopt;
 }
+
+bool TTLManager::has_expiration(const std::string &key)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    return expiry_map_.find(key) != expiry_map_.end();
+}
