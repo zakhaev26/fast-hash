@@ -83,10 +83,24 @@ CMakeFiles/FastHash.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/FastHash.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/soubhik/codes/fast-hash/src/main.cpp -o CMakeFiles/FastHash.dir/src/main.cpp.s
 
+CMakeFiles/FastHash.dir/src/core/command.cpp.o: CMakeFiles/FastHash.dir/flags.make
+CMakeFiles/FastHash.dir/src/core/command.cpp.o: src/core/command.cpp
+CMakeFiles/FastHash.dir/src/core/command.cpp.o: CMakeFiles/FastHash.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/soubhik/codes/fast-hash/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/FastHash.dir/src/core/command.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/FastHash.dir/src/core/command.cpp.o -MF CMakeFiles/FastHash.dir/src/core/command.cpp.o.d -o CMakeFiles/FastHash.dir/src/core/command.cpp.o -c /home/soubhik/codes/fast-hash/src/core/command.cpp
+
+CMakeFiles/FastHash.dir/src/core/command.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/FastHash.dir/src/core/command.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/soubhik/codes/fast-hash/src/core/command.cpp > CMakeFiles/FastHash.dir/src/core/command.cpp.i
+
+CMakeFiles/FastHash.dir/src/core/command.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/FastHash.dir/src/core/command.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/soubhik/codes/fast-hash/src/core/command.cpp -o CMakeFiles/FastHash.dir/src/core/command.cpp.s
+
 CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o: CMakeFiles/FastHash.dir/flags.make
 CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o: src/core/fast-hash.cpp
 CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o: CMakeFiles/FastHash.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/soubhik/codes/fast-hash/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/soubhik/codes/fast-hash/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o -MF CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o.d -o CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o -c /home/soubhik/codes/fast-hash/src/core/fast-hash.cpp
 
 CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.i: cmake_force
@@ -100,7 +114,7 @@ CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.s: cmake_force
 CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o: CMakeFiles/FastHash.dir/flags.make
 CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o: src/core/ttl_manager.cpp
 CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o: CMakeFiles/FastHash.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/soubhik/codes/fast-hash/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/soubhik/codes/fast-hash/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o -MF CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o.d -o CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o -c /home/soubhik/codes/fast-hash/src/core/ttl_manager.cpp
 
 CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.i: cmake_force
@@ -110,20 +124,6 @@ CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.i: cmake_force
 CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/soubhik/codes/fast-hash/src/core/ttl_manager.cpp -o CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.s
-
-CMakeFiles/FastHash.dir/src/core/command.cpp.o: CMakeFiles/FastHash.dir/flags.make
-CMakeFiles/FastHash.dir/src/core/command.cpp.o: src/core/command.cpp
-CMakeFiles/FastHash.dir/src/core/command.cpp.o: CMakeFiles/FastHash.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/soubhik/codes/fast-hash/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/FastHash.dir/src/core/command.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/FastHash.dir/src/core/command.cpp.o -MF CMakeFiles/FastHash.dir/src/core/command.cpp.o.d -o CMakeFiles/FastHash.dir/src/core/command.cpp.o -c /home/soubhik/codes/fast-hash/src/core/command.cpp
-
-CMakeFiles/FastHash.dir/src/core/command.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/FastHash.dir/src/core/command.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/soubhik/codes/fast-hash/src/core/command.cpp > CMakeFiles/FastHash.dir/src/core/command.cpp.i
-
-CMakeFiles/FastHash.dir/src/core/command.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/FastHash.dir/src/core/command.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/soubhik/codes/fast-hash/src/core/command.cpp -o CMakeFiles/FastHash.dir/src/core/command.cpp.s
 
 CMakeFiles/FastHash.dir/src/core/parser.cpp.o: CMakeFiles/FastHash.dir/flags.make
 CMakeFiles/FastHash.dir/src/core/parser.cpp.o: src/core/parser.cpp
@@ -142,18 +142,18 @@ CMakeFiles/FastHash.dir/src/core/parser.cpp.s: cmake_force
 # Object files for target FastHash
 FastHash_OBJECTS = \
 "CMakeFiles/FastHash.dir/src/main.cpp.o" \
+"CMakeFiles/FastHash.dir/src/core/command.cpp.o" \
 "CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o" \
 "CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o" \
-"CMakeFiles/FastHash.dir/src/core/command.cpp.o" \
 "CMakeFiles/FastHash.dir/src/core/parser.cpp.o"
 
 # External object files for target FastHash
 FastHash_EXTERNAL_OBJECTS =
 
 FastHash: CMakeFiles/FastHash.dir/src/main.cpp.o
+FastHash: CMakeFiles/FastHash.dir/src/core/command.cpp.o
 FastHash: CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o
 FastHash: CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o
-FastHash: CMakeFiles/FastHash.dir/src/core/command.cpp.o
 FastHash: CMakeFiles/FastHash.dir/src/core/parser.cpp.o
 FastHash: CMakeFiles/FastHash.dir/build.make
 FastHash: CMakeFiles/FastHash.dir/link.txt

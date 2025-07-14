@@ -23,14 +23,18 @@ public:
     bool expired(
         const std::string &key);
     void stop();
-    void set_expire_callback(std::function<void(const std::string &)> cb);
+    void set_expire_callback(
+        std::function<void(const std::string &)> cb);
     // std::function<void(const std::string &)> on_expire_callback_;
     // void set_expire_callback(std::function<void(const std::string &)> cb);
-    std::optional<std::chrono::steady_clock::time_point> get_expiry_time(const std::string &key);
     bool has_expiration(const std::string &key);
+    std::optional<
+        std::chrono::steady_clock::time_point>
+    get_expiry_time(
+        const std::string &key) const;
     void clear_all();
 
-    private:
+private:
     struct expire_entry
     {
         std::string key;
@@ -48,8 +52,7 @@ public:
 
     std::unordered_map<std::string, std::chrono::steady_clock::time_point> expiry_map_;
 
-    std::mutex mutex_;
-
+    mutable std::mutex mutex_;
     std::condition_variable cv_;
 
     bool stop_flag_;

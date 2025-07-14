@@ -1,5 +1,7 @@
 #include <iostream>
 #include <regex>
+#include <fstream>
+#include <nlohmann/json.hpp>
 #include "core/fast-hash.hpp"
 #include "core/fast-hash.hpp"
 
@@ -207,4 +209,36 @@ void FastHash::flush_all()
     std::lock_guard<std::mutex> lock(mutex_);
     store_.clear();
     ttl_manager_.clear_all();
+}
+
+using json = nlohmann::json;
+bool FastHash::save(const std::string &filename) const
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    json dump;
+
+    for (const auto &[key, val] : store_)
+    {
+        json entry;
+        entry["value"] = val.data;
+
+        auto ttl_opt = ttl_manager_.get_expiry_time(key);
+        if (ttl_opt.has_value())
+        {
+            auto expire_time = ttl_opt.value();
+            auto unix_time = std::chrono::duration_cast<std::chrono::seconds>(
+                                 expire_time.time_since_epoch())
+                                 .count();
+            entry["ttl"] = unix_time;
+        }
+
+        dump[key] = entry;
+    }
+
+    std::ofstream ofs(filename);
+    if (!ofs)
+        return false;
+
+    ofs << dump.dump(2); // pretty print
+    return true;
 }

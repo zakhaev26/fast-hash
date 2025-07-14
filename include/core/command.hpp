@@ -19,6 +19,7 @@ public:
         EXISTS,
         PERSIST,
         FLUSHALL,
+        SAVE,
         INVALID
     };
     Type type;

@@ -64,15 +64,32 @@ CMAKE_BINARY_DIR = /home/soubhik/codes/fast-hash
 
 # The main recursive "all" target.
 all: CMakeFiles/FastHash.dir/all
+all: _deps/json-build/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: _deps/json-build/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/FastHash.dir/clean
+clean: _deps/json-build/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory _deps/json-build
+
+# Recursive "all" directory target.
+_deps/json-build/all:
+.PHONY : _deps/json-build/all
+
+# Recursive "preinstall" directory target.
+_deps/json-build/preinstall:
+.PHONY : _deps/json-build/preinstall
+
+# Recursive "clean" directory target.
+_deps/json-build/clean:
+.PHONY : _deps/json-build/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/FastHash.dir

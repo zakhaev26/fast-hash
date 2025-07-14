@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/soubhik/codes/fast-hash/include
+CXX_INCLUDES = -I/home/soubhik/codes/fast-hash/include -I/home/soubhik/codes/fast-hash/_deps/json-src/include
 
 CXX_FLAGS = -std=gnu++17
 

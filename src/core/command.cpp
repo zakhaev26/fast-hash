@@ -12,6 +12,7 @@
 #define __EXISTS__ "EXISTS"
 #define __PERSIST__ "PERSIST"
 #define __FLUSHALL__ "FLUSHALL"
+#define __SAVE__ "SAVE"
 
 Command Command::parse(const std::string &line)
 {
@@ -43,6 +44,8 @@ Command Command::parse(const std::string &line)
         cmd.type = Command::Type::PERSIST;
     else if (cmd_name == __FLUSHALL__)
         cmd.type = Command::Type::FLUSHALL;
+    else if (cmd_name == __SAVE__)
+        cmd.type = Command::Type::SAVE;
     else
         cmd.type = INVALID;
 
@@ -181,6 +184,22 @@ void Command::execute(FastHash &store) const
         }
         store.flush_all();
         std::cout << "OK\n";
+        break;
+
+    case SAVE:
+        if (args.size() != 1)
+        {
+            std::cout << "ERROR: SAVE takes no arguments\n";
+            return;
+        }
+        if (store.save())
+        {
+            std::cout << "OK\n";
+        }
+        else
+        {
+            std::cout << "ERROR: Failed to save\n";
+        }
         break;
 
     default:

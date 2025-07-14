@@ -118,16 +118,16 @@ void TTLManager::set_expire_callback(std::function<void(const std::string &)> cb
     this->on_expire_callback_ = cb;
 }
 
-std::optional<std::chrono::steady_clock::time_point> TTLManager::get_expiry_time(const std::string &key)
-{
-    std::lock_guard<std::mutex> lock(mutex_);
-    auto it = expiry_map_.find(key);
-    if (it != expiry_map_.end())
-    {
-        return it->second;
-    }
-    return std::nullopt;
-}
+// std::optional<std::chrono::steady_clock::time_point> TTLManager::get_expiry_time(const std::string &key)
+// {
+//     std::lock_guard<std::mutex> lock(mutex_);
+//     auto it = expiry_map_.find(key);
+//     if (it != expiry_map_.end())
+//     {
+//         return it->second;
+//     }
+//     return std::nullopt;
+// }
 
 bool TTLManager::has_expiration(const std::string &key)
 {
@@ -146,4 +146,14 @@ void TTLManager::clear_all()
     }
 
     cv_.notify_all();
+}
+
+std::optional<std::chrono::steady_clock::time_point> TTLManager::get_expiry_time(const std::string &key) const
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = expiry_map_.find(key);
+    if (it != expiry_map_.end())
+        return it->second;
+
+    return std::nullopt;
 }

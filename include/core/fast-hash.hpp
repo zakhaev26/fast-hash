@@ -21,6 +21,7 @@ public:
     bool exists(const std::string &key);
     bool persist(const std::string &key);
     void flush_all();
+    bool save(const std::string& filename = "dump.json") const;
     void stop();
 
 private:
@@ -31,7 +32,7 @@ private:
 
     std::unordered_map<std::string, Value> store_;
     TTLManager ttl_manager_;
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
 
     void remove_if_expired(const std::string &key);
 };
