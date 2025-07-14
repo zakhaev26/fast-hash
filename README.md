@@ -77,5 +77,4 @@
 
 - [ ] Tooling & Developer Experience (Planned)
   - [ ] test suites
-  - [ ] Detailed documentation and examples
-**[WIP]** — FastHash is under active development. Contributions and feedback are welcome!
+  - [ ] docs and examples
