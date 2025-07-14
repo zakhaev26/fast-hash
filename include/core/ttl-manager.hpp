@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <chrono>
 #include <queue>
@@ -7,28 +8,25 @@
 #include <thread>
 #include <unordered_map>
 #include <functional>
+#include <optional>
+
 class TTLManager
 {
 public:
     TTLManager();
     ~TTLManager();
-
     void add_expiration(
         const std::string &key,
         std::chrono::steady_clock::time_point expire_time);
-
     void remove_expiration(
         const std::string &key);
-
     bool expired(
         const std::string &key);
-
     void stop();
-
     void set_expire_callback(std::function<void(const std::string &)> cb);
-
     // std::function<void(const std::string &)> on_expire_callback_;
     // void set_expire_callback(std::function<void(const std::string &)> cb);
+    std::optional<std::chrono::steady_clock::time_point> get_expiry_time(const std::string &key);
 
 private:
     struct expire_entry

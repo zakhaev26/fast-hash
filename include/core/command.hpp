@@ -11,16 +11,12 @@ public:
     {
         SET,
         SETEX,
-
         GET,
-
         DEL,
-
         EXPIRE,
         TTL,
-
         KEYS,
-
+        EXISTS, 
         INVALID
     };
     Type type;

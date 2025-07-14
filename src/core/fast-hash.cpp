@@ -1,6 +1,7 @@
 #include <iostream>
 #include <regex>
 #include "core/fast-hash.hpp"
+#include "core/fast-hash.hpp"
 
 FastHash::FastHash()
 {
@@ -109,19 +110,29 @@ bool FastHash::expire(const std::string &key, int seconds)
 int FastHash::ttl(const std::string &key)
 {
     std::lock_guard<std::mutex> lock(this->mutex_);
-    if (store_.find(key) == store_.end())
-        return -2; // no such key
 
-    auto now = std::chrono::steady_clock::now();
-    if (!this->ttl_manager_.expired(key))
+    auto it = store_.find(key);
+    if (it == store_.end())
+        return -2;
+
+    // safety
+    if (ttl_manager_.expired(key))
     {
-        // We don't have direct access to expiry time here, so we can:
-        // Query internal TTLManager map with a public accessor (optional)
-        // For now, implement a helper (not shown) or approximate TTL here:
-        // For simplicity, return -1 (no expire) or implement TTLManager accessor if needed
+        store_.erase(it);
+        ttl_manager_.remove_expiration(key);
+        return -2;
+    }
+
+    auto expiry_opt = ttl_manager_.get_expiry_time(key);
+    if (!expiry_opt.has_value())
+    {
         return -1;
     }
-    return -2;
+
+    auto now = std::chrono::steady_clock::now();
+    auto remaining = std::chrono::duration_cast<std::chrono::seconds>(expiry_opt.value() - now).count();
+
+    return remaining > 0 ? static_cast<int>(remaining) : -2;
 }
 
 std::vector<std::string> FastHash::keys(const std::string &pattern)
@@ -154,4 +165,17 @@ std::vector<std::string> FastHash::keys(const std::string &pattern)
     }
 
     return response;
+}
+
+bool FastHash::exists(const std::string &key)
+{
+    std::lock_guard<std::mutex> lock(this->mutex_);
+    if (this->ttl_manager_.expired(key))
+    {
+        store_.erase(key);
+        ttl_manager_.remove_expiration(key);
+        return false;
+    }
+
+    return store_.find(key) != store_.end();
 }

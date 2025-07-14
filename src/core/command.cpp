@@ -9,6 +9,7 @@
 #define __SETEX__ "SETEX"
 #define __DEL__ "DEL"
 #define __KEYS__ "KEYS"
+#define __EXISTS__ "EXISTS"
 
 Command Command::parse(const std::string &line)
 {
@@ -23,19 +24,21 @@ Command Command::parse(const std::string &line)
     std::string cmd_name = parser::to_upper(cmd.args[0]);
 
     if (cmd_name == __SET__)
-        cmd.type = SET;
+        cmd.type = Type::SET;
     else if (cmd_name == __GET__)
-        cmd.type = GET;
+        cmd.type = Type::GET;
     else if (cmd_name == __DEL__)
-        cmd.type = DEL;
+        cmd.type = Type::DEL;
     else if (cmd_name == __EXPIRE__)
-        cmd.type = EXPIRE;
+        cmd.type = Type::EXPIRE;
     else if (cmd_name == __TTL__)
-        cmd.type = TTL;
+        cmd.type = Type::TTL;
     else if (cmd_name == __SETEX__)
-        cmd.type = SETEX;
+        cmd.type = Type::SETEX;
     else if (cmd_name == __KEYS__)
-        cmd.type = KEYS;
+        cmd.type = Type::KEYS;
+    else if (cmd_name == __EXISTS__)
+        cmd.type = Type::EXISTS;
     else
         cmd.type = INVALID;
 
@@ -147,30 +150,40 @@ void Command::execute(FastHash &store) const
         for (const auto &key : store.keys(args[1]))
             std::cout << key << "\n";
         break;
+
+    case EXISTS:
+        if (args.size() != 2)
+        {
+            std::cout << "ERROR: Usage: EXISTS key\n";
+            return;
+        }
+        std::cout << (store.exists(args[1]) ? "1\n" : "0\n");
+        break;
+
     default:
         std::cout << "ERROR: unknown command\n";
     }
 }
 
-void Command::handle_keys(FastHash &store, const std::vector<std::string> &tokens)
-{
-    if (tokens.size() != 2)
-    {
-        std::cout << "ERROR: Usage: KEYS pattern\n";
-        return;
-    }
+// void Command::handle_keys(FastHash &store, const std::vector<std::string> &tokens)
+// {
+//     if (tokens.size() != 2)
+//     {
+//         std::cout << "ERROR: Usage: KEYS pattern\n";
+//         return;
+//     }
 
-    std::vector<std::string> matches = store.keys(tokens[1]);
+//     std::vector<std::string> matches = store.keys(tokens[1]);
 
-    if (matches.empty())
-    {
-        std::cout << "(empty list)\n";
-    }
-    else
-    {
-        for (const auto &k : matches)
-        {
-            std::cout << k << "\n";
-        }
-    }
-}
+//     if (matches.empty())
+//     {
+//         std::cout << "(empty list)\n";
+//     }
+//     else
+//     {
+//         for (const auto &k : matches)
+//         {
+//             std::cout << k << "\n";
+//         }
+//     }
+// }

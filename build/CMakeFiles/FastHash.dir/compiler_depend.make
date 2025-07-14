@@ -71,6 +71,7 @@ CMakeFiles/FastHash.dir/src/core/command.cpp.o: /home/soubhik/codes/fast-hash/sr
   /usr/include/bits/wchar.h \
   /usr/include/bits/wctype-wchar.h \
   /usr/include/bits/wordsize.h \
+  /usr/include/c++/14/array \
   /usr/include/c++/14/backward/binders.h \
   /usr/include/c++/14/bit \
   /usr/include/c++/14/bits/alloc_traits.h \
@@ -125,6 +126,7 @@ CMakeFiles/FastHash.dir/src/core/command.cpp.o: /home/soubhik/codes/fast-hash/sr
   /usr/include/c++/14/bits/shared_ptr_base.h \
   /usr/include/c++/14/bits/sstream.tcc \
   /usr/include/c++/14/bits/std_abs.h \
+  /usr/include/c++/14/bits/std_function.h \
   /usr/include/c++/14/bits/std_mutex.h \
   /usr/include/c++/14/bits/std_thread.h \
   /usr/include/c++/14/bits/stl_algobase.h \
@@ -157,6 +159,7 @@ CMakeFiles/FastHash.dir/src/core/command.cpp.o: /home/soubhik/codes/fast-hash/sr
   /usr/include/c++/14/cerrno \
   /usr/include/c++/14/chrono \
   /usr/include/c++/14/clocale \
+  /usr/include/c++/14/compare \
   /usr/include/c++/14/concepts \
   /usr/include/c++/14/condition_variable \
   /usr/include/c++/14/cstddef \
@@ -177,6 +180,7 @@ CMakeFiles/FastHash.dir/src/core/command.cpp.o: /home/soubhik/codes/fast-hash/sr
   /usr/include/c++/14/ext/numeric_traits.h \
   /usr/include/c++/14/ext/string_conversions.h \
   /usr/include/c++/14/ext/type_traits.h \
+  /usr/include/c++/14/functional \
   /usr/include/c++/14/initializer_list \
   /usr/include/c++/14/ios \
   /usr/include/c++/14/iosfwd \
@@ -307,6 +311,7 @@ CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o: /home/soubhik/codes/fast-hash/
   /usr/include/bits/wchar.h \
   /usr/include/bits/wctype-wchar.h \
   /usr/include/bits/wordsize.h \
+  /usr/include/c++/14/array \
   /usr/include/c++/14/backward/binders.h \
   /usr/include/c++/14/bit \
   /usr/include/c++/14/bits/algorithmfwd.h \
@@ -418,6 +423,7 @@ CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o: /home/soubhik/codes/fast-hash/
   /usr/include/c++/14/cerrno \
   /usr/include/c++/14/chrono \
   /usr/include/c++/14/clocale \
+  /usr/include/c++/14/compare \
   /usr/include/c++/14/concepts \
   /usr/include/c++/14/condition_variable \
   /usr/include/c++/14/cstddef \
@@ -438,6 +444,7 @@ CMakeFiles/FastHash.dir/src/core/fast-hash.cpp.o: /home/soubhik/codes/fast-hash/
   /usr/include/c++/14/ext/numeric_traits.h \
   /usr/include/c++/14/ext/string_conversions.h \
   /usr/include/c++/14/ext/type_traits.h \
+  /usr/include/c++/14/functional \
   /usr/include/c++/14/initializer_list \
   /usr/include/c++/14/ios \
   /usr/include/c++/14/iosfwd \
@@ -777,6 +784,7 @@ CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o: /home/soubhik/codes/fast-has
   /usr/include/bits/wchar.h \
   /usr/include/bits/wctype-wchar.h \
   /usr/include/bits/wordsize.h \
+  /usr/include/c++/14/array \
   /usr/include/c++/14/backward/binders.h \
   /usr/include/c++/14/bit \
   /usr/include/c++/14/bits/alloc_traits.h \
@@ -830,6 +838,7 @@ CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o: /home/soubhik/codes/fast-has
   /usr/include/c++/14/bits/shared_ptr.h \
   /usr/include/c++/14/bits/shared_ptr_base.h \
   /usr/include/c++/14/bits/std_abs.h \
+  /usr/include/c++/14/bits/std_function.h \
   /usr/include/c++/14/bits/std_mutex.h \
   /usr/include/c++/14/bits/std_thread.h \
   /usr/include/c++/14/bits/stl_algobase.h \
@@ -862,6 +871,7 @@ CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o: /home/soubhik/codes/fast-has
   /usr/include/c++/14/cerrno \
   /usr/include/c++/14/chrono \
   /usr/include/c++/14/clocale \
+  /usr/include/c++/14/compare \
   /usr/include/c++/14/concepts \
   /usr/include/c++/14/condition_variable \
   /usr/include/c++/14/cstddef \
@@ -882,6 +892,7 @@ CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o: /home/soubhik/codes/fast-has
   /usr/include/c++/14/ext/numeric_traits.h \
   /usr/include/c++/14/ext/string_conversions.h \
   /usr/include/c++/14/ext/type_traits.h \
+  /usr/include/c++/14/functional \
   /usr/include/c++/14/initializer_list \
   /usr/include/c++/14/ios \
   /usr/include/c++/14/iosfwd \
@@ -890,6 +901,7 @@ CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o: /home/soubhik/codes/fast-has
   /usr/include/c++/14/limits \
   /usr/include/c++/14/mutex \
   /usr/include/c++/14/new \
+  /usr/include/c++/14/optional \
   /usr/include/c++/14/ostream \
   /usr/include/c++/14/pstl/pstl_config.h \
   /usr/include/c++/14/queue \
@@ -1011,6 +1023,7 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
   /usr/include/bits/wchar.h \
   /usr/include/bits/wctype-wchar.h \
   /usr/include/bits/wordsize.h \
+  /usr/include/c++/14/array \
   /usr/include/c++/14/backward/binders.h \
   /usr/include/c++/14/bit \
   /usr/include/c++/14/bits/alloc_traits.h \
@@ -1065,6 +1078,7 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
   /usr/include/c++/14/bits/shared_ptr_base.h \
   /usr/include/c++/14/bits/sstream.tcc \
   /usr/include/c++/14/bits/std_abs.h \
+  /usr/include/c++/14/bits/std_function.h \
   /usr/include/c++/14/bits/std_mutex.h \
   /usr/include/c++/14/bits/std_thread.h \
   /usr/include/c++/14/bits/stl_algobase.h \
@@ -1097,6 +1111,7 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
   /usr/include/c++/14/cerrno \
   /usr/include/c++/14/chrono \
   /usr/include/c++/14/clocale \
+  /usr/include/c++/14/compare \
   /usr/include/c++/14/concepts \
   /usr/include/c++/14/condition_variable \
   /usr/include/c++/14/cstddef \
@@ -1117,6 +1132,7 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
   /usr/include/c++/14/ext/numeric_traits.h \
   /usr/include/c++/14/ext/string_conversions.h \
   /usr/include/c++/14/ext/type_traits.h \
+  /usr/include/c++/14/functional \
   /usr/include/c++/14/initializer_list \
   /usr/include/c++/14/ios \
   /usr/include/c++/14/iosfwd \
@@ -1232,10 +1248,6 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 
 /usr/include/c++/14/bits/hashtable.h:
 
-/usr/include/c++/14/bits/std_thread.h:
-
-/usr/include/bits/types/mbstate_t.h:
-
 /usr/include/c++/14/bits/hash_bytes.h:
 
 /usr/include/c++/14/bits/char_traits.h:
@@ -1254,10 +1266,6 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 
 /usr/include/c++/14/clocale:
 
-/usr/include/c++/14/bits/parse_numbers.h:
-
-/usr/include/c++/14/ostream:
-
 /usr/include/bits/typesizes.h:
 
 /usr/include/c++/14/bits/istream.tcc:
@@ -1269,10 +1277,6 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 /usr/include/c++/14/bits/basic_string.h:
 
 /usr/include/bits/pthreadtypes.h:
-
-/usr/include/c++/14/bits/stl_algobase.h:
-
-/usr/include/c++/14/bits/stl_iterator.h:
 
 /usr/include/c++/14/bits/allocated_ptr.h:
 
@@ -1287,6 +1291,8 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 /usr/include/c++/14/backward/binders.h:
 
 /usr/include/bits/time64.h:
+
+/usr/include/bits/types/struct_FILE.h:
 
 /usr/include/c++/14/bits/allocator.h:
 
@@ -1324,6 +1330,8 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 
 /usr/include/bits/select.h:
 
+/usr/include/c++/14/array:
+
 /usr/include/bits/types/__fpos64_t.h:
 
 /usr/include/bits/libc-header-start.h:
@@ -1337,6 +1345,10 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 /usr/include/c++/14/bits/stringfwd.h:
 
 /usr/include/gnu/stubs-64.h:
+
+/usr/include/bits/types/mbstate_t.h:
+
+/usr/include/c++/14/bits/std_thread.h:
 
 /usr/include/bits/errno.h:
 
@@ -1353,6 +1365,8 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 /usr/include/c++/14/bits/stl_stack.h:
 
 /usr/include/c++/14/bits/stl_heap.h:
+
+/usr/include/c++/14/functional:
 
 /usr/include/c++/14/bits/basic_ios.h:
 
@@ -1422,6 +1436,12 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 
 /usr/include/asm-generic/errno.h:
 
+/usr/include/c++/14/bits/enable_special_members.h:
+
+/usr/include/bits/types/__sigset_t.h:
+
+/usr/include/c++/14/bits/std_function.h:
+
 /usr/include/c++/14/bits/memory_resource.h:
 
 /usr/include/bits/types/__fpos_t.h:
@@ -1439,6 +1459,10 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 /usr/include/bits/types/struct___jmp_buf_tag.h:
 
 /home/soubhik/codes/fast-hash/include/core/command.hpp:
+
+/usr/include/c++/14/bits/stl_algobase.h:
+
+/usr/include/c++/14/bits/stl_iterator.h:
 
 /usr/include/c++/14/bits/charconv.h:
 
@@ -1511,8 +1535,6 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 /usr/include/c++/14/x86_64-redhat-linux/bits/gthr-default.h:
 
 /usr/include/bits/types/cookie_io_functions_t.h:
-
-/usr/include/bits/types/struct_FILE.h:
 
 /usr/include/bits/waitflags.h:
 
@@ -1588,6 +1610,12 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 
 /usr/include/sys/single_threaded.h:
 
+/usr/include/c++/14/bits/parse_numbers.h:
+
+/usr/include/c++/14/ostream:
+
+/usr/include/c++/14/compare:
+
 /usr/include/c++/14/cstdint:
 
 /usr/include/c++/14/bits/regex_executor.tcc:
@@ -1643,6 +1671,10 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 /usr/include/stdlib.h:
 
 /usr/include/c++/14/queue:
+
+/usr/include/c++/14/bits/stl_algo.h:
+
+/usr/include/c++/14/sstream:
 
 /usr/include/c++/14/string:
 
@@ -1708,24 +1740,14 @@ CMakeFiles/FastHash.dir/src/main.cpp.o: /home/soubhik/codes/fast-hash/src/main.c
 
 /usr/include/c++/14/bits/regex.h:
 
-/usr/include/c++/14/bits/regex_automaton.h:
-
-/usr/include/c++/14/bits/regex_compiler.tcc:
-
-/usr/include/c++/14/bits/regex_error.h:
+/usr/include/c++/14/bits/regex_scanner.h:
 
 /usr/include/bits/cpu-set.h:
 
 /usr/include/c++/14/bits/regex.tcc:
 
-/usr/include/c++/14/bits/regex_scanner.h:
+/usr/include/c++/14/bits/regex_automaton.h:
 
-/usr/include/c++/14/sstream:
+/usr/include/c++/14/bits/regex_compiler.tcc:
 
-/usr/include/c++/14/bits/stl_algo.h:
-
-/usr/include/c++/14/bits/enable_special_members.h:
-
-/usr/include/bits/types/__sigset_t.h:
-
-/usr/include/c++/14/bits/std_function.h:
+/usr/include/c++/14/bits/regex_error.h:

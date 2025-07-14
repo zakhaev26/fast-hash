@@ -1,5 +1,4 @@
 #include "core/ttl-manager.hpp"
-#include <iostream>
 
 TTLManager::TTLManager() : stop_flag_(false)
 {
@@ -117,4 +116,15 @@ void TTLManager::sweeper()
 void TTLManager::set_expire_callback(std::function<void(const std::string &)> cb)
 {
     this->on_expire_callback_ = cb;
+}
+
+std::optional<std::chrono::steady_clock::time_point> TTLManager::get_expiry_time(const std::string &key)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = expiry_map_.find(key);
+    if (it != expiry_map_.end())
+    {
+        return it->second;
+    }
+    return std::nullopt;
 }

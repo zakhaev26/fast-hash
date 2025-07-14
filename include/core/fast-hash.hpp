@@ -11,17 +11,14 @@ class FastHash
 public:
     FastHash();
     ~FastHash();
-
     bool set(const std::string &key, const std::string &value, std::optional<int> ttl_seconds = std::nullopt);
     // bool get(const std::string &key, std::string &value) const;
     std::optional<std::string> get(const std::string &key);
     bool del(const std::string &key);
-
     bool expire(const std::string &key, int seconds);
     int ttl(const std::string &key);
-
     std::vector<std::string> keys(const std::string &pattern = "*");
-
+    bool exists(const std::string &key);
     void stop();
 
 private:
