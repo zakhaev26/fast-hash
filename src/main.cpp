@@ -2,6 +2,7 @@
 #include <string>
 #include "core/command.hpp"
 #include "core/fast-hash.hpp"
+
 int main()
 {
     FastHash store;

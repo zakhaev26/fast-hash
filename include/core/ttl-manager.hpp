@@ -6,7 +6,7 @@
 #include <condition_variable>
 #include <thread>
 #include <unordered_map>
-
+#include <functional>
 class TTLManager
 {
 public:
@@ -24,6 +24,11 @@ public:
         const std::string &key);
 
     void stop();
+
+    void set_expire_callback(std::function<void(const std::string &)> cb);
+
+    // std::function<void(const std::string &)> on_expire_callback_;
+    // void set_expire_callback(std::function<void(const std::string &)> cb);
 
 private:
     struct expire_entry
@@ -52,4 +57,6 @@ private:
     std::thread sweeper_thread_;
 
     void sweeper();
+
+    std::function<void(const std::string &key)> on_expire_callback_;
 };

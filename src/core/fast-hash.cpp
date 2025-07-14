@@ -2,7 +2,17 @@
 #include <regex>
 #include "core/fast-hash.hpp"
 
-FastHash::FastHash() {}
+FastHash::FastHash()
+{
+    this->ttl_manager_.set_expire_callback(
+        [this](const std::string &key)
+        {
+            std::lock_guard<std::mutex> lock(this->mutex_);
+            this->store_.erase(key);
+            std::cout << "[DEBUG]: key '" << key << "' also removed from store_\n";
+        });
+}
+
 FastHash::~FastHash()
 {
     this->stop();
@@ -30,7 +40,7 @@ bool FastHash::set(
     }
     else
     {
-        ttl_manager_.remove_expiration(key);
+        this->ttl_manager_.remove_expiration(key);
     }
 
     return true;
@@ -43,13 +53,13 @@ bool FastHash::set(
 
 std::optional<std::string> FastHash::get(const std::string &key)
 {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::mutex> lock(this->mutex_);
 
-    if (ttl_manager_.expired(key))
+    if (this->ttl_manager_.expired(key))
     {
         std::cout << "[DEBUG]: key expired already!\n";
         store_.erase(key);
-        ttl_manager_.remove_expiration(key);
+        this->ttl_manager_.remove_expiration(key);
         return std::nullopt;
     }
     std::cout << "[DEBUG]: key not expired !\n";
@@ -77,9 +87,9 @@ std::optional<std::string> FastHash::get(const std::string &key)
 
 bool FastHash::del(const std::string &key)
 {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::mutex> lock(this->mutex_);
     bool erased = store_.erase(key) > 0;
-    ttl_manager_.remove_expiration(key);
+    this->ttl_manager_.remove_expiration(key);
     return erased;
 }
 
@@ -87,25 +97,25 @@ bool FastHash::expire(const std::string &key, int seconds)
 {
     if (seconds <= 0)
         return false;
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::mutex> lock(this->mutex_);
     if (store_.find(key) == store_.end())
         return false;
 
     auto expire_time = std::chrono::steady_clock::now() + std::chrono::seconds(seconds);
-    ttl_manager_.add_expiration(key, expire_time);
+    this->ttl_manager_.add_expiration(key, expire_time);
     return true;
 }
 
 int FastHash::ttl(const std::string &key)
 {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::mutex> lock(this->mutex_);
     if (store_.find(key) == store_.end())
         return -2; // no such key
 
     auto now = std::chrono::steady_clock::now();
-    if (!ttl_manager_.expired(key))
+    if (!this->ttl_manager_.expired(key))
     {
-        // We don’t have direct access to expiry time here, so we can:
+        // We don't have direct access to expiry time here, so we can:
         // Query internal TTLManager map with a public accessor (optional)
         // For now, implement a helper (not shown) or approximate TTL here:
         // For simplicity, return -1 (no expire) or implement TTLManager accessor if needed
@@ -131,7 +141,11 @@ std::vector<std::string> FastHash::keys(const std::string &pattern)
         const std::string &key = pair.first;
 
         if (this->ttl_manager_.expired(key))
+        {
+            store_.erase(key);
+            this->ttl_manager_.remove_expiration(key);
             continue;
+        }
 
         if (std::regex_match(key, pattern_regex))
         {

@@ -95,8 +95,16 @@ void TTLManager::sweeper()
                 if (it != expiry_map_.end() && it->second <= now)
                 {
                     expiry_map_.erase(it);
+
+                    if (on_expire_callback_)
+                    {
+                        lock.unlock();
+                        on_expire_callback_(next.key);
+                        lock.lock();
+                    }
+
+                    std::cout << "[SYSTEM]: Sweeped 1 key in background thread." << next.key << "\n";
                 }
-                // Continuing to check next expired keys immediately ?
             }
             else
             {
@@ -104,4 +112,9 @@ void TTLManager::sweeper()
             }
         }
     }
+}
+
+void TTLManager::set_expire_callback(std::function<void(const std::string &)> cb)
+{
+    this->on_expire_callback_ = cb;
 }

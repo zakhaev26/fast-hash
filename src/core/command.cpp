@@ -137,6 +137,7 @@ void Command::execute(FastHash &store) const
             std::cout << "ERROR: invalid seconds\n";
         }
         break;
+
     case KEYS:
         if (args.size() != 2)
         {
