@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="media/fast-hash-banner.png" alt="FastHash Banner" width="100%">
+  <img src="media/banner-high-res.png" alt="FastHash Banner" width="100%">
 </p>
 
 # FastHash
