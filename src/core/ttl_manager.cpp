@@ -134,3 +134,16 @@ bool TTLManager::has_expiration(const std::string &key)
     std::lock_guard<std::mutex> lock(mutex_);
     return expiry_map_.find(key) != expiry_map_.end();
 }
+
+void TTLManager::clear_all()
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    expiry_map_.clear();
+
+    while (!expiry_heap_.empty())
+    {
+        expiry_heap_.pop();
+    }
+
+    cv_.notify_all();
+}

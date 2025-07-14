@@ -20,6 +20,7 @@ public:
     std::vector<std::string> keys(const std::string &pattern = "*");
     bool exists(const std::string &key);
     bool persist(const std::string &key);
+    void flush_all();
     void stop();
 
 private:

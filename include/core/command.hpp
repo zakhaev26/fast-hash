@@ -17,7 +17,8 @@ public:
         TTL,
         KEYS,
         EXISTS,
-        PERSIST, 
+        PERSIST,
+        FLUSHALL,
         INVALID
     };
     Type type;

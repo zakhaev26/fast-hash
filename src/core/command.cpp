@@ -11,6 +11,7 @@
 #define __KEYS__ "KEYS"
 #define __EXISTS__ "EXISTS"
 #define __PERSIST__ "PERSIST"
+#define __FLUSHALL__ "FLUSHALL"
 
 Command Command::parse(const std::string &line)
 {
@@ -40,6 +41,8 @@ Command Command::parse(const std::string &line)
         cmd.type = Command::Type::KEYS;
     else if (cmd_name == __PERSIST__)
         cmd.type = Command::Type::PERSIST;
+    else if (cmd_name == __FLUSHALL__)
+        cmd.type = Command::Type::FLUSHALL;
     else
         cmd.type = INVALID;
 
@@ -170,20 +173,30 @@ void Command::execute(FastHash &store) const
         std::cout << (store.persist(args[1]) ? "1\n" : "0\n");
         break;
 
+    case Command::Type::FLUSHALL:
+        if (args.size() != 1)
+        {
+            std::cout << "ERROR: FLUSHALL takes no arguments\n";
+            return;
+        }
+        store.flush_all();
+        std::cout << "OK\n";
+        break;
+
     default:
         std::cout << "ERROR: unknown command\n";
     }
 }
 
-// void Command::handle_keys(FastHash &store, const std::vector<std::string> &tokens)
+// void Command::handle_keys(FastHash &store, const std::vector<std::string> &args)
 // {
-//     if (tokens.size() != 2)
+//     if (args.size() != 2)
 //     {
 //         std::cout << "ERROR: Usage: KEYS pattern\n";
 //         return;
 //     }
 
-//     std::vector<std::string> matches = store.keys(tokens[1]);
+//     std::vector<std::string> matches = store.keys(args[1]);
 
 //     if (matches.empty())
 //     {

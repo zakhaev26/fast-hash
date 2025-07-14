@@ -201,3 +201,10 @@ bool FastHash::persist(const std::string &key)
     ttl_manager_.remove_expiration(key);
     return true;
 }
+
+void FastHash::flush_all()
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    store_.clear();
+    ttl_manager_.clear_all();
+}
