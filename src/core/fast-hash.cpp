@@ -1,14 +1,19 @@
 // Copyright 2025 Soubhik Gon
 #include "core/fast-hash.hpp"
+#include "core/fast-hash.hpp"
+#include "core/command.hpp"
+#include "core/parser.hpp"
+
 using json = nlohmann::json;
 
-FastHash::FastHash()
+FastHash::FastHash(const std::string &aof_path, AOFSyncPolicy policy) : aof_logger_(aof_path, policy), is_aof_loading_(false)
 {
   this->ttl_manager_.set_expire_callback([this](const std::string &key)
                                          {
-    std::lock_guard<std::mutex> lock(this->mutex_);
-    this->store_.erase(key);
-    std::cout << "[DEBUG]: key '" << key << "' also removed from store_\n"; });
+                                           std::lock_guard<std::mutex> lock(this->mutex_);
+                                           this->store_.erase(key);
+                                           // std::cout << "[DEBUG]: key '" << key << "' also removed from store_\n";
+                                         });
 }
 
 FastHash::~FastHash() { this->stop(); }
@@ -20,21 +25,21 @@ bool FastHash::set(const std::string &key, const std::string &value,
 {
   std::lock_guard<std::mutex> lock(this->mutex_);
   this->store_[key] = Value{value};
-  // std::cout << "[DEBUG]: key " << key << " value " << value << " ttl_seconds
-  // " << ttl_seconds.value() << "\n";
+
   if (ttl_seconds.has_value())
   {
     auto expire_time = std::chrono::steady_clock::now() +
                        std::chrono::seconds(ttl_seconds.value());
-    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(
-                     expire_time.time_since_epoch())
-                     .count()
-              << "\n";
     this->ttl_manager_.add_expiration(key, expire_time);
+
+    if (!is_aof_loading_)
+      aof_logger_.log("SETEX " + key + " " + std::to_string(ttl_seconds.value()) + " " + value);
   }
   else
   {
     this->ttl_manager_.remove_expiration(key);
+    if (!is_aof_loading_)
+      aof_logger_.log("SET " + key + " " + value);
   }
 
   return true;
@@ -51,12 +56,12 @@ std::optional<std::string> FastHash::get(const std::string &key)
 
   if (this->ttl_manager_.expired(key))
   {
-    std::cout << "[DEBUG]: key expired already!\n";
+    // std::cout << "[DEBUG]: key expired already!\n";
     store_.erase(key);
     this->ttl_manager_.remove_expiration(key);
     return std::nullopt;
   }
-  std::cout << "[DEBUG]: key not expired !\n";
+  // std::cout << "[DEBUG]: key not expired !\n";
 
   auto it = store_.find(key);
   if (it == store_.end())
@@ -84,6 +89,8 @@ bool FastHash::del(const std::string &key)
   std::lock_guard<std::mutex> lock(this->mutex_);
   bool erased = store_.erase(key) > 0;
   this->ttl_manager_.remove_expiration(key);
+  if (erased && !is_aof_loading_)
+    aof_logger_.log("DEL " + key);
   return erased;
 }
 
@@ -91,6 +98,7 @@ bool FastHash::expire(const std::string &key, int seconds)
 {
   if (seconds <= 0)
     return false;
+
   std::lock_guard<std::mutex> lock(this->mutex_);
   if (store_.find(key) == store_.end())
     return false;
@@ -98,6 +106,10 @@ bool FastHash::expire(const std::string &key, int seconds)
   auto expire_time =
       std::chrono::steady_clock::now() + std::chrono::seconds(seconds);
   this->ttl_manager_.add_expiration(key, expire_time);
+
+  if (!is_aof_loading_)
+    aof_logger_.log("EXPIRE " + key + " " + std::to_string(seconds));
+
   return true;
 }
 
@@ -181,7 +193,6 @@ bool FastHash::exists(const std::string &key)
 bool FastHash::persist(const std::string &key)
 {
   std::lock_guard<std::mutex> lock(mutex_);
-
   if (ttl_manager_.expired(key))
   {
     store_.erase(key);
@@ -197,6 +208,9 @@ bool FastHash::persist(const std::string &key)
     return false;
 
   ttl_manager_.remove_expiration(key);
+
+  if (!is_aof_loading_)
+    aof_logger_.log("PERSIST " + key);
   return true;
 }
 
@@ -205,13 +219,16 @@ void FastHash::flush_all()
   std::lock_guard<std::mutex> lock(mutex_);
   store_.clear();
   ttl_manager_.clear_all();
+
+  if (!is_aof_loading_)
+    aof_logger_.log("FLUSHALL");
 }
 
 bool FastHash::save(const std::string &filepath) const
 {
   std::lock_guard<std::mutex> lock(mutex_);
   nlohmann::json data = this->serialize();
-  std::cout << data << std::endl;
+  // std::cout << data << std::endl;
   std::ofstream file(filepath);
   if (!file.is_open())
   {
@@ -311,7 +328,7 @@ bool FastHash::load(const std::string &filepath)
     }
 
     std::string value = entry["value"];
-    std::cout << key << " "<< value << std::endl; 
+    // std::cout << key << " " << value << std::endl;
     store_[key] = Value{value};
 
     if (entry.contains("ttl") && entry["ttl"].is_number_integer())
@@ -326,4 +343,152 @@ bool FastHash::load(const std::string &filepath)
   }
 
   return true;
+}
+
+// void FastHash::enable_aof(const std::string &path, AOFSyncPolicy policy)
+// {
+//   aof_log_ = std::make_unique<AOFLogger>(path, policy);
+// }
+
+/*
+bool FastHash::load_aof(const std::string& filepath)
+{
+    std::ifstream file(filepath);
+    if (!file.is_open())
+    {
+        std::cerr << "[WARN] No AOF file found at: " << filepath << "\n";
+        return false;
+    }
+
+    std::string line;
+    bool original_flag = ao;  // Save current state
+    this->ao = false;               // Disable logging during replay
+
+    while (std::getline(file, line))
+    {
+        if (line.empty()) continue;
+
+        Command cmd = Command::parse(line);
+        if (cmd.type == Command::INVALID)
+        {
+            std::cerr << "[WARN] Invalid AOF line: " << line << "\n";
+            continue;
+        }
+
+        cmd.execute(*this);
+    }
+
+    this->aof_enabled_ = original_flag;
+    return true;
+}
+
+// bool FastHash::load_aof(const std::string &filepath)
+{
+  std::ifstream file(filepath);
+  if (!file.is_open())
+  {
+    std::cerr << "[WARN] No AOF file found at: " << filepath << "\n";
+    return false;
+  }
+
+  std::string line;
+  bool original_flag = this->aof_enabled_;
+  this->aof_enabled_ = false;
+
+  while (std::getline(file, line))
+  {
+    if (line.empty())
+      continue;
+
+    Command cmd = Command::parse(line);
+    if (cmd.type == Command::INVALID)
+    {
+      std::cerr << "[WARN] Invalid AOF line: " << line << "\n";
+      continue;
+    }
+
+    cmd.execute(*this);
+  }
+
+  this->aof_enabled_ = original_flag;
+  return true;
+}
+*/
+
+void FastHash::replayAOF(const std::string &filepath)
+{
+  std::ifstream file(filepath);
+  if (!file.is_open())
+  {
+    std::cerr << "[WARN] AOF file not found: " << filepath << "\n";
+    return;
+  }
+
+  is_aof_loading_ = true;
+  // std::cout << "is_aof_loading_=" << is_aof_loading_ << std::endl;
+
+  std::string line;
+  int count = 0;
+
+  while (std::getline(file, line))
+  {
+    auto tokens = parser::tokenize(line);
+    if (tokens.empty())
+      continue;
+
+    std::string cmd = parser::to_upper(tokens[0]);
+
+    if (cmd == "SET" && tokens.size() == 3)
+    {
+      this->set(tokens[1], tokens[2]);
+    }
+    else if (cmd == "SETEX" && tokens.size() == 4)
+    {
+      try
+      {
+        int ttl = std::stoi(tokens[2]);
+        this->set(tokens[1], tokens[3], ttl);
+      }
+      catch (...)
+      {
+        std::cerr << "[ERROR] Invalid TTL in AOF SETEX\n";
+      }
+    }
+    else if (cmd == "DEL" && tokens.size() == 2)
+    {
+      this->del(tokens[1]);
+    }
+    else if (cmd == "EXPIRE" && tokens.size() == 3)
+    {
+      try
+      {
+        int ttl = std::stoi(tokens[2]);
+        this->expire(tokens[1], ttl);
+      }
+      catch (...)
+      {
+        std::cerr << "[ERROR] Invalid TTL in AOF EXPIRE\n";
+      }
+    }
+    else if (cmd == "PERSIST" && tokens.size() == 2)
+    {
+      this->persist(tokens[1]);
+    }
+    else if (cmd == "FLUSHALL")
+    {
+      this->flush_all();
+    }
+    else
+    {
+      std::cerr << "[WARN] Unrecognized or invalid AOF command: " << line << "\n";
+    }
+
+    count++;
+  }
+
+  is_aof_loading_ = false;
+  // std::cout << "is_aof_loading_=" << is_aof_loading_ << std::endl;
+
+  std::cout
+      << "[INFO] AOF replayed " << count << " commands\n";
 }

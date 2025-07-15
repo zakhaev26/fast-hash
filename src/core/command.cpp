@@ -1,7 +1,6 @@
 // Copyright 2025 Soubhik Gon
 #include "core/command.hpp"
 #include "core/parser.hpp"
-#include <iostream>
 #define __SET__ "SET"
 #define __GET__ "GET"
 #define __EXPIRE__ "EXPIRE"

@@ -4,13 +4,17 @@
 #include <iostream>
 #include <string>
 
-int main() {
-  FastHash store;
+int main()
+{
+  FastHash store("appendonly.aof");
+  store.replayAOF("appendonly.aof");
+
   std::string line;
 
   std::cout << "FastHash CLI. Commands: SET, GET, DEL, EXPIRE, TTL, SETEX\n";
 
-  while (true) {
+  while (true)
+  {
     std::cout << "> ";
     if (!std::getline(std::cin, line))
       break;
@@ -18,7 +22,8 @@ int main() {
       continue;
 
     Command cmd = Command::parse(line);
-    if (cmd.type == Command::INVALID) {
+    if (cmd.type == Command::INVALID)
+    {
       std::cout << "ERROR: Invalid command\n";
       continue;
     }

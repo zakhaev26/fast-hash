@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o.d"
   "CMakeFiles/FastHash.dir/src/main.cpp.o"
   "CMakeFiles/FastHash.dir/src/main.cpp.o.d"
+  "CMakeFiles/FastHash.dir/src/persistence/aof/aof.cpp.o"
+  "CMakeFiles/FastHash.dir/src/persistence/aof/aof.cpp.o.d"
   "FastHash"
   "FastHash.pdb"
 )

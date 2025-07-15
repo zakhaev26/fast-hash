@@ -19,7 +19,7 @@
 
 
 - [ ] Persistence (Planned~WIP)
-  - [ ] Background snapshot saving to avoid blcking the main thread
+  - [x] Background snapshot saving to avoid blcking the main thread
   - [ ] AOF logging for durability and incremental persistence
   - [ ] Periodic snapshotting combined with AOF for crash recovery
   - [ ] Configurable persistence options (enable/disable, frequency)

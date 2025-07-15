@@ -249,6 +249,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FastHash.dir/build.make CMakeFiles/FastHash.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/persistence/aof/aof.o: src/persistence/aof/aof.cpp.o
+.PHONY : src/persistence/aof/aof.o
+
+# target to build an object file
+src/persistence/aof/aof.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FastHash.dir/build.make CMakeFiles/FastHash.dir/src/persistence/aof/aof.cpp.o
+.PHONY : src/persistence/aof/aof.cpp.o
+
+src/persistence/aof/aof.i: src/persistence/aof/aof.cpp.i
+.PHONY : src/persistence/aof/aof.i
+
+# target to preprocess a source file
+src/persistence/aof/aof.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FastHash.dir/build.make CMakeFiles/FastHash.dir/src/persistence/aof/aof.cpp.i
+.PHONY : src/persistence/aof/aof.cpp.i
+
+src/persistence/aof/aof.s: src/persistence/aof/aof.cpp.s
+.PHONY : src/persistence/aof/aof.s
+
+# target to generate assembly for a file
+src/persistence/aof/aof.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FastHash.dir/build.make CMakeFiles/FastHash.dir/src/persistence/aof/aof.cpp.s
+.PHONY : src/persistence/aof/aof.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -273,6 +297,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/persistence/aof/aof.o"
+	@echo "... src/persistence/aof/aof.i"
+	@echo "... src/persistence/aof/aof.s"
 .PHONY : help
 
 

@@ -20,6 +20,7 @@ add_executable(FastHash
     src/core/fast-hash.cpp
     src/core/ttl_manager.cpp
     src/core/parser.cpp
+    src/persistence/aof/aof.cpp
 )
 
 target_link_libraries(FastHash PRIVATE nlohmann_json::nlohmann_json)

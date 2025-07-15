@@ -1,13 +1,16 @@
 // Copyright 2025 Soubhik Gon
 #pragma once
-#include "fast-hash.hpp"
+#include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
+#include "fast-hash.hpp"
 
-class Command {
+class Command
+{
 public:
-  enum Type {
+  enum Type
+  {
     SET,
     SETEX,
     GET,

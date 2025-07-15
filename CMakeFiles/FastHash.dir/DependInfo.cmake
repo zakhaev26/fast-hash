@@ -13,6 +13,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/soubhik/codes/fast-hash/src/core/parser.cpp" "CMakeFiles/FastHash.dir/src/core/parser.cpp.o" "gcc" "CMakeFiles/FastHash.dir/src/core/parser.cpp.o.d"
   "/home/soubhik/codes/fast-hash/src/core/ttl_manager.cpp" "CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o" "gcc" "CMakeFiles/FastHash.dir/src/core/ttl_manager.cpp.o.d"
   "/home/soubhik/codes/fast-hash/src/main.cpp" "CMakeFiles/FastHash.dir/src/main.cpp.o" "gcc" "CMakeFiles/FastHash.dir/src/main.cpp.o.d"
+  "/home/soubhik/codes/fast-hash/src/persistence/aof/aof.cpp" "CMakeFiles/FastHash.dir/src/persistence/aof/aof.cpp.o" "gcc" "CMakeFiles/FastHash.dir/src/persistence/aof/aof.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
