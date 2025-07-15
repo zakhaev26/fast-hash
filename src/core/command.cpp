@@ -13,11 +13,15 @@
 #define __PERSIST__ "PERSIST"
 #define __FLUSHALL__ "FLUSHALL"
 #define __SAVE__ "SAVE"
+#define __ASAVE__ "ASAVE"
+#define __LOAD__ "LOAD"
 
-Command Command::parse(const std::string &line) {
+Command Command::parse(const std::string &line)
+{
   Command cmd;
   cmd.args = parser::tokenize(line);
-  if (cmd.args.empty()) {
+  if (cmd.args.empty())
+  {
     cmd.type = INVALID;
     return cmd;
   }
@@ -44,16 +48,23 @@ Command Command::parse(const std::string &line) {
     cmd.type = Command::Type::FLUSHALL;
   else if (cmd_name == __SAVE__)
     cmd.type = Command::Type::SAVE;
+  else if (cmd_name == __ASAVE__)
+    cmd.type = Command::Type::ASAVE;
+  else if (cmd_name == __LOAD__)
+    cmd.type = Command::Type::LOAD;
   else
     cmd.type = INVALID;
 
   return cmd;
 }
 
-void Command::execute(FastHash &store) const {
-  switch (type) {
+void Command::execute(FastHash &store) const
+{
+  switch (type)
+  {
   case Command::Type::SET:
-    if (args.size() != 3) {
+    if (args.size() != 3)
+    {
       std::cout << "ERROR: SET usage: SET key value\n";
       break;
     }
@@ -61,8 +72,10 @@ void Command::execute(FastHash &store) const {
     std::cout << "OK\n";
     break;
 
-  case Command::Type::GET: {
-    if (args.size() != 2) {
+  case Command::Type::GET:
+  {
+    if (args.size() != 2)
+    {
       std::cout << "ERROR: GET usage: GET key\n";
       break;
     }
@@ -75,7 +88,8 @@ void Command::execute(FastHash &store) const {
   }
 
   case Command::Type::DEL:
-    if (args.size() != 2) {
+    if (args.size() != 2)
+    {
       std::cout << "ERROR: DEL usage: DEL key\n";
       break;
     }
@@ -86,23 +100,28 @@ void Command::execute(FastHash &store) const {
     break;
 
   case Command::Type::EXPIRE:
-    if (args.size() != 3) {
+    if (args.size() != 3)
+    {
       std::cout << "ERROR: EXPIRE usage: EXPIRE key seconds\n";
       break;
     }
-    try {
+    try
+    {
       int seconds = std::stoi(args[2]);
       if (store.expire(args[1], seconds))
         std::cout << "OK\n";
       else
         std::cout << "(nil)\n";
-    } catch (...) {
+    }
+    catch (...)
+    {
       std::cout << "ERROR: invalid seconds\n";
     }
     break;
 
   case Command::Type::TTL:
-    if (args.size() != 2) {
+    if (args.size() != 2)
+    {
       std::cout << "ERROR: TTL usage: TTL key\n";
       break;
     }
@@ -118,21 +137,26 @@ void Command::execute(FastHash &store) const {
     break;
 
   case Command::Type::SETEX:
-    if (args.size() != 4) {
+    if (args.size() != 4)
+    {
       std::cout << "ERROR: SETEX usage: SETEX key seconds value\n";
       break;
     }
-    try {
+    try
+    {
       int seconds = std::stoi(args[2]);
       store.set(args[1], args[3], seconds);
       std::cout << "OK\n";
-    } catch (...) {
+    }
+    catch (...)
+    {
       std::cout << "ERROR: invalid seconds\n";
     }
     break;
 
   case Command::Type::KEYS:
-    if (args.size() != 2) {
+    if (args.size() != 2)
+    {
       std::cout << "ERROR: Usage: KEYS pattern\n";
       return;
     }
@@ -141,7 +165,8 @@ void Command::execute(FastHash &store) const {
     break;
 
   case Command::Type::EXISTS:
-    if (args.size() != 2) {
+    if (args.size() != 2)
+    {
       std::cout << "ERROR: Usage: EXISTS key\n";
       return;
     }
@@ -149,7 +174,8 @@ void Command::execute(FastHash &store) const {
     break;
 
   case Command::Type::PERSIST:
-    if (args.size() != 2) {
+    if (args.size() != 2)
+    {
       std::cout << "ERROR: Usage: PERSIST key\n";
       return;
     }
@@ -157,7 +183,8 @@ void Command::execute(FastHash &store) const {
     break;
 
   case Command::Type::FLUSHALL:
-    if (args.size() != 1) {
+    if (args.size() != 1)
+    {
       std::cout << "ERROR: FLUSHALL takes no arguments\n";
       return;
     }
@@ -165,15 +192,51 @@ void Command::execute(FastHash &store) const {
     std::cout << "OK\n";
     break;
 
-  case SAVE:
-    if (args.size() != 1) {
+  case Command::Type::SAVE:
+    if (args.size() != 1)
+    {
       std::cout << "ERROR: SAVE takes no arguments\n";
       return;
     }
-    if (store.save()) {
+    if (store.save())
+    {
       std::cout << "OK\n";
-    } else {
+    }
+    else
+    {
       std::cout << "ERROR: Failed to save\n";
+    }
+    break;
+
+  case Command::Type::ASAVE:
+    if (args.size() != 1)
+    {
+      std::cout << "ERROR: ASAVE takes no arguments\n";
+      return;
+    }
+    if (store.save_async())
+    {
+      std::cout << "OK\n";
+    }
+    else
+    {
+      std::cout << "ERROR: Failed to save asynchronously\n";
+    }
+    break;
+
+  case Command::Type::LOAD:
+    if (args.size() != 1)
+    {
+      std::cout << "ERROR: LOAD takes no arguments\n";
+      return;
+    }
+    if (store.load())
+    {
+      std::cout << "OK\n";
+    }
+    else
+    {
+      std::cout << "ERROR: Failed to load dumpfile\n";
     }
     break;
 

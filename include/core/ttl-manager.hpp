@@ -11,7 +11,8 @@
 #include <thread>
 #include <unordered_map>
 
-class TTLManager {
+class TTLManager
+{
 public:
   TTLManager();
   ~TTLManager();
@@ -29,12 +30,14 @@ public:
   void clear_all();
 
 private:
-  struct expire_entry {
+  struct expire_entry
+  {
     std::string key;
 
     std::chrono::steady_clock::time_point expire_time;
 
-    bool operator>(const expire_entry &other) const {
+    bool operator>(const expire_entry &other) const
+    {
       return this->expire_time > other.expire_time;
     }
   };

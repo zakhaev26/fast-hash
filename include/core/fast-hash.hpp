@@ -4,7 +4,13 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
-class FastHash {
+#include <thread>
+#include <fstream>
+#include <iostream>
+#include <nlohmann/json.hpp>
+#include <regex>
+class FastHash
+{
   // private:
   //     std::unordered_map<std::string, std::string> store;
 
@@ -23,10 +29,14 @@ public:
   bool persist(const std::string &key);
   void flush_all();
   bool save(const std::string &filename = "dump.json") const;
+  bool save_async(const std::string &filename = "dump.json") const;
+  nlohmann::json serialize() const;
+  bool load(const std::string &filepath = "dump.json");
   void stop();
 
 private:
-  struct Value {
+  struct Value
+  {
     std::string data;
   };
 

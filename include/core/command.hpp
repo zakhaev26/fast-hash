@@ -19,6 +19,8 @@ public:
     PERSIST,
     FLUSHALL,
     SAVE,
+    ASAVE,
+    LOAD,
     INVALID
   };
   Type type;
