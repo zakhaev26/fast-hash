@@ -1,20 +1,20 @@
 // Copyright 2025 Soubhik Gon
 #pragma once
-#include "ttl-manager.hpp"
 #include "persistence/aof/aof.hpp"
-#include <optional>
-#include <string>
-#include <unordered_map>
-#include <thread>
+#include "ttl-manager.hpp"
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <optional>
 #include <regex>
-class FastHash
-{
+#include <string>
+#include <thread>
+#include <unordered_map>
+class FastHash {
 public:
   // FastHash();
-  FastHash(const std::string &aof_path = "appendonly.aof", AOFSyncPolicy policy = AOFSyncPolicy::ALWAYS);
+  FastHash(const std::string &aof_path = "appendonly.aof",
+           AOFSyncPolicy policy = AOFSyncPolicy::ALWAYS);
   ~FastHash();
   bool set(const std::string &key, const std::string &value,
            std::optional<int> ttl_seconds = std::nullopt);
@@ -31,14 +31,13 @@ public:
   bool save_async(const std::string &filename = "dump.json") const;
   nlohmann::json serialize() const;
   bool load(const std::string &filepath = "dump.json");
-  // void enable_aof(const std::string &path, AOFSyncPolicy policy = AOFSyncPolicy::EVERYSEC);
-  // bool load_from_aof(const std::string &path);
+  // void enable_aof(const std::string &path, AOFSyncPolicy policy =
+  // AOFSyncPolicy::EVERYSEC); bool load_from_aof(const std::string &path);
   void replayAOF(const std::string &filepath);
   void stop();
 
 private:
-  struct Value
-  {
+  struct Value {
     std::string data;
   };
 

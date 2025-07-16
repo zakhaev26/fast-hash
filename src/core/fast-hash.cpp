@@ -6,22 +6,29 @@
 
 using json = nlohmann::json;
 
-FastHash::FastHash(const std::string &aof_path, AOFSyncPolicy policy) : aof_logger_(aof_path, policy), is_aof_loading_(false)
+FastHash::FastHash(
+    const std::string &aof_path,
+    AOFSyncPolicy policy)
+    : aof_logger_(aof_path, policy),
+      is_aof_loading_(false)
 {
-  this->ttl_manager_.set_expire_callback([this](const std::string &key)
-                                         {
-                                           std::lock_guard<std::mutex> lock(this->mutex_);
-                                           this->store_.erase(key);
-                                           // std::cout << "[DEBUG]: key '" << key << "' also removed from store_\n";
-                                         });
+  this->ttl_manager_.set_expire_callback(
+      [this](const std::string &key)
+      {
+        std::lock_guard<std::mutex> lock(this->mutex_);
+        this->store_.erase(key);
+        // std::cout << "[DEBUG]: key '" << key << "' also removed from store_\n";
+      });
 }
 
 FastHash::~FastHash() { this->stop(); }
 
 void FastHash::stop() { this->ttl_manager_.stop(); }
 
-bool FastHash::set(const std::string &key, const std::string &value,
-                   std::optional<int> ttl_seconds)
+bool FastHash::set(
+    const std::string &key,
+    const std::string &value,
+    std::optional<int> ttl_seconds)
 {
   std::lock_guard<std::mutex> lock(this->mutex_);
   this->store_[key] = Value{value};
@@ -33,7 +40,13 @@ bool FastHash::set(const std::string &key, const std::string &value,
     this->ttl_manager_.add_expiration(key, expire_time);
 
     if (!is_aof_loading_)
-      aof_logger_.log("SETEX " + key + " " + std::to_string(ttl_seconds.value()) + " " + value);
+      aof_logger_.log(
+          "SETEX " +
+          key +
+          " " +
+          std::to_string(ttl_seconds.value()) +
+          " " +
+          value);
   }
   else
   {
@@ -104,11 +117,16 @@ bool FastHash::expire(const std::string &key, int seconds)
     return false;
 
   auto expire_time =
-      std::chrono::steady_clock::now() + std::chrono::seconds(seconds);
+      std::chrono::steady_clock::now() +
+      std::chrono::seconds(seconds);
   this->ttl_manager_.add_expiration(key, expire_time);
 
   if (!is_aof_loading_)
-    aof_logger_.log("EXPIRE " + key + " " + std::to_string(seconds));
+    aof_logger_.log(
+        "EXPIRE " +
+        key +
+        " " +
+        std::to_string(seconds));
 
   return true;
 }
@@ -150,10 +168,16 @@ std::vector<std::string> FastHash::keys(const std::string &pattern)
   std::vector<std::string> response;
 
   std::string regex_pattern =
-      std::regex_replace(pattern, std::regex(R"([\.\^\$\+\(\)\[\]\{\}])"),
+      std::regex_replace(pattern,
+                         std::regex(R"([\.\^\$\+\(\)\[\]\{\}])"),
                          R"(\$&)"); // escape regex
-  regex_pattern = std::regex_replace(regex_pattern, std::regex(R"(\*)"), ".*");
-  regex_pattern = std::regex_replace(regex_pattern, std::regex(R"(\?)"), ".");
+  regex_pattern = std::regex_replace(
+      regex_pattern,
+      std::regex(R"(\*)"), ".*");
+
+  regex_pattern = std::regex_replace(
+      regex_pattern,
+      std::regex(R"(\?)"), ".");
 
   std::regex pattern_regex("^" + regex_pattern + "$");
 
@@ -210,7 +234,10 @@ bool FastHash::persist(const std::string &key)
   ttl_manager_.remove_expiration(key);
 
   if (!is_aof_loading_)
-    aof_logger_.log("PERSIST " + key);
+    aof_logger_.log(
+        "PERSIST " +
+        key);
+
   return true;
 }
 
@@ -221,7 +248,8 @@ void FastHash::flush_all()
   ttl_manager_.clear_all();
 
   if (!is_aof_loading_)
-    aof_logger_.log("FLUSHALL");
+    aof_logger_.log(
+        "FLUSHALL");
 }
 
 bool FastHash::save(const std::string &filepath) const
@@ -244,16 +272,16 @@ bool FastHash::save_async(const std::string &filepath) const
 {
   std::thread([this, filepath]()
               {
-        nlohmann::json data;
-        {
-            std::lock_guard<std::mutex> lock(this->mutex_);
-            data = this->serialize();
-        }
+                       nlohmann::json data;
+                    {
+                      std::lock_guard<std::mutex> lock(this->mutex_);
+                      data = this->serialize();
+                    }
 
         std::ofstream file(filepath);
         if (!file.is_open()) {
-            std::cerr << "[ERROR] Failed to open file for ASAVE\n";
-            return;
+    std::cerr << "[ERROR] Failed to open file for ASAVE\n";
+    return;
         }
 
         file << data.dump(2); })
