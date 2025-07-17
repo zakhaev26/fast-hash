@@ -20,12 +20,12 @@
 
 - [ ] Persistence (Planned~WIP)
   - [x] Background snapshot saving to avoid blcking the main thread
-  - [ ] AOF logging for durability and incremental persistence
+  - [x] AOF logging for durability and incremental persistence
   - [ ] Periodic snapshotting combined with AOF for crash recovery
   - [ ] Configurable persistence options (enable/disable, frequency)
   
 - [ ] Networking Layer (In Progress)
-  - [x] TCP server using standalone ASIO (Maybe In house TCP Server ? Look into it) <--*
+  - [ ] TCP server using standalone ASIO (Maybe In house TCP Server ? Look into it) <--*
   - [ ] Async multi-client handling with full concurrency support
   - [ ] Command parsing over network (line-based, later RESP protocol)
   - [ ] Well-structured, production-grade request-response lifecycle
