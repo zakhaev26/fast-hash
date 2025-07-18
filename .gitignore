@@ -44,3 +44,4 @@
 CMakeFiles
 .vscode
 build/
+_deps/
